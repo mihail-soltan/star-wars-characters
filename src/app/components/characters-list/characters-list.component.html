@@ -1,0 +1,73 @@
+<h1>May the 4th be with you</h1>
+<div class="search">
+    <button class="clear-btn btn" *ngIf="!currentPage.length" (click)="clearSearch()">Clear Search</button>
+  <input type="text" placeholder="Search" class="search-field" [(ngModel)]="searchText">
+    <button class="search-btn btn" (click)="search()" [disabled]="!searchText.length">GO</button>
+</div>
+<div class="list">
+  <div *ngIf="!characters.length" class="spinner">
+    <div class="bounce1"></div>
+    <div class="bounce2"></div>
+    <div class="bounce3"></div>
+  </div>
+
+  <div class="card" *ngFor="let character of characters">
+    <h2>Name: {{ character.name }}</h2>
+    <p>Height: {{ character.height }} cm</p>
+    <p>Mass: {{ character.mass }} kg</p>
+    <p>Hair color: {{ character.hair_color }}</p>
+    <div *ngIf="showDetails === character">
+      <h2>Films</h2>
+      <ol>
+        <li *ngFor="let film of character.films">
+          <a href="{{ film }}" target="_blank">{{ film }}</a>
+        </li>
+      </ol>
+      <div *ngIf="character.species.length">
+        <h2>Species</h2>
+        <p *ngFor="let species of character.species">
+          <a href="{{ species }}" target="_blank">{{ species }}</a>
+        </p>
+      </div>
+      <div *ngIf="character.vehicles.length">
+        <h2>Vehicles</h2>
+        <ol>
+            <li *ngFor="let vehicle of character.vehicles">
+                <a href="{{ vehicle }}" target="_blank">{{ vehicle }}</a>
+            </li>
+        </ol>
+
+      </div>
+      <div *ngIf="character.starships.length">
+        <h2>Starships</h2>
+        <ol>
+            <li *ngFor="let starship of character.starships">
+                <a href="{{ starship }}" target="_blank">{{ starship }}</a>
+            </li>
+        </ol>
+      </div>
+    </div>
+    <div class="footer">
+        <button class="details-btn" (click)="setActive(character)">
+          {{ showDetails === character ? "Hide details" : "Show details" }}
+        </button>
+    </div>
+  </div>
+  <div class="pagination" *ngIf="currentPage.length">
+    <button
+      class="prev btn"
+      [disabled]="currentPage === '1'"
+      (click)="prevPage()"
+    >
+      Previous page
+    </button>
+    <span class="page"> Current page: {{ currentPage }}</span>
+    <button
+      class="next btn"
+      [disabled]="characters.length < 9"
+      (click)="nextPage()"
+    >
+      Next page
+    </button>
+  </div>
+</div>
